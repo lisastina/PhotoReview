@@ -1,7 +1,14 @@
 import { Row, Col } from "react-bootstrap";
 import ImageCard from "./ImageCard";
 
-const AlbumList = ({ images, edit, setSelectedImages, selectedImages }) => {
+const AlbumList = ({
+  images,
+  edit,
+  setSelectedImages,
+  selectedImages,
+  dislikedImages,
+  setDislikedImages,
+}) => {
   return (
     <Row className="mt-3">
       {images?.map((image, i) => {
@@ -12,6 +19,8 @@ const AlbumList = ({ images, edit, setSelectedImages, selectedImages }) => {
               edit={edit}
               selectedImages={selectedImages}
               setSelectedImages={setSelectedImages}
+              dislikedImages={dislikedImages}
+              setDislikedImages={setDislikedImages}
             />
           </Col>
         );

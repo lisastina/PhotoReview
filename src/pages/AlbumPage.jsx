@@ -17,8 +17,9 @@ import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
 import ImageDropzone from "../components/ImageDropzone";
 import { useDropzone } from "react-dropzone";
 import { SRLWrapper } from "simple-react-lightbox";
-import AlbumList from "../components/ImageList";
+import ImageList from "../components/ImageList";
 import useCreateNewAlbum from "../hooks/useCreateNewAlbum";
+import SelectedImages from "../components/SelectedImages";
 
 const AlbumPage = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const AlbumPage = () => {
   const albumNameRef = useRef();
   const [newImages, setNewImages] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
+  const [dislikedImages, setDislikedImages] = useState([]);
   const uploadAlbum = useUploadAlbum(newImages);
   const { data: album } = useGetDoc("albums", "album", id);
   const { data: images } = useGetCol("images", {
@@ -142,7 +144,7 @@ const AlbumPage = () => {
           {/* Images */}
           {edit ? (
             <>
-              <AlbumList
+              <ImageList
                 images={images}
                 edit={edit}
                 setSelectedImages={setSelectedImages}
@@ -157,11 +159,13 @@ const AlbumPage = () => {
             <Form onSubmit={handleNewAlbum}>
               <>
                 <SRLWrapper>
-                  <AlbumList
+                  <ImageList
                     images={images}
                     edit={edit}
                     setSelectedImages={setSelectedImages}
                     selectedImages={selectedImages}
+                    dislikedImages={dislikedImages}
+                    setDislikedImages={setDislikedImages}
                   />
                 </SRLWrapper>
                 {!currentUser && (
@@ -170,7 +174,12 @@ const AlbumPage = () => {
                       {selectedImages?.length}/{images?.length}
                       images selected
                     </p>
-                    <Button type="submit">Save</Button>
+                    <SelectedImages
+                      images={images}
+                      selectedImages={selectedImages}
+                      dislikedImages={dislikedImages}
+                      handleNewAlbum={handleNewAlbum}
+                    />
                   </>
                 )}
               </>

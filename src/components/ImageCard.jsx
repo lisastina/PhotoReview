@@ -3,10 +3,17 @@ import { Card, Button, Form } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
 import useDeleteimage from "../hooks/useDeleteImage";
 
-const ImageCard = ({ image, edit, selectedImages, setSelectedImages }) => {
+const ImageCard = ({
+  image,
+  edit,
+  selectedImages,
+  setSelectedImages,
+  dislikedImages,
+  setDislikedImages,
+}) => {
   const { currentUser } = useAuthContext();
   const deleteImage = useDeleteimage(image);
-  const [isSelected, setIsSelected] = useState(false);
+  const [isSelected, setIsSelected] = useState();
 
   const handleDelete = () => {
     deleteImage.deleteImage();
@@ -21,12 +28,16 @@ const ImageCard = ({ image, edit, selectedImages, setSelectedImages }) => {
 
   /* Set selected images */
   useEffect(() => {
+    if (isSelected === false) {
+      setSelectedImages(selectedImages.filter((i) => i._id !== image._id));
+      setDislikedImages([...dislikedImages, image]);
+    }
+
     if (isSelected) {
       setSelectedImages([...selectedImages, image]);
+      setDislikedImages(dislikedImages.filter((i) => i._id !== image._id));
     }
-    if (!isSelected) {
-      setSelectedImages(selectedImages.filter((i) => i._id !== image._id));
-    }
+
     // eslint-disable-next-line
   }, [isSelected]);
 
@@ -68,9 +79,7 @@ const ImageCard = ({ image, edit, selectedImages, setSelectedImages }) => {
               name={image._id}
               type="radio"
               required
-              onClick={() => {
-                setIsSelected(true);
-              }}
+              onClick={() => setIsSelected(true)}
             />
             <Form.Check
               inline
@@ -79,9 +88,7 @@ const ImageCard = ({ image, edit, selectedImages, setSelectedImages }) => {
               type="radio"
               id={`${image._id}-dislike`}
               required
-              onClick={() => {
-                setIsSelected(false);
-              }}
+              onClick={() => setIsSelected(false)}
             />
           </Card.Footer>
         </>
