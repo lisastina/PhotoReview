@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
@@ -28,6 +28,7 @@ const LoginPage = () => {
     <>
       <h1>Login</h1>
       <Container>
+        {error && <Alert variant="warning">{error}</Alert>}
         <form onSubmit={handleLogin}>
           <input type="email" ref={emailRef} />
           <input type="password" ref={passwordRef} />

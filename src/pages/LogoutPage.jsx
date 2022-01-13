@@ -6,9 +6,10 @@ const LogoutPage = () => {
   const navigate = useNavigate();
   const { logout } = useAuthContext();
 
-  useEffect(async () => {
-    await logout();
+  useEffect(() => {
+    logout();
     navigate("/login");
+    // eslint-disable-next-line
   }, []);
 
   return <>You are logging out...</>;

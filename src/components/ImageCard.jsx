@@ -25,10 +25,9 @@ const ImageCard = ({ image, edit, selectedImages, setSelectedImages }) => {
       setSelectedImages([...selectedImages, image]);
     }
     if (!isSelected) {
-      setSelectedImages(
-        selectedImages.filter((image) => image._id !== image._id)
-      );
+      setSelectedImages(selectedImages.filter((i) => i._id !== image._id));
     }
+    // eslint-disable-next-line
   }, [isSelected]);
 
   return (
