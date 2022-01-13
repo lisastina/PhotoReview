@@ -29,13 +29,13 @@ const ImageCard = ({
   /* Set selected images */
   useEffect(() => {
     if (isSelected === false) {
-      setSelectedImages(selectedImages.filter((i) => i._id !== image._id));
+      setSelectedImages(selectedImages?.filter((i) => i._id !== image._id));
       setDislikedImages([...dislikedImages, image]);
     }
 
     if (isSelected) {
       setSelectedImages([...selectedImages, image]);
-      setDislikedImages(dislikedImages.filter((i) => i._id !== image._id));
+      setDislikedImages(dislikedImages?.filter((i) => i._id !== image._id));
     }
 
     // eslint-disable-next-line
