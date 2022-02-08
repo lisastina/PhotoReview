@@ -29,6 +29,7 @@ const AlbumPage = () => {
   const [add, setAdd] = useState(false);
   const [alert, setAlert] = useState(false);
   const albumNameRef = useRef();
+  const urlRef = useRef();
   const [newImages, setNewImages] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
   const [dislikedImages, setDislikedImages] = useState([]);
@@ -55,6 +56,11 @@ const AlbumPage = () => {
         name: albumNameRef.current.value,
       });
     }
+  };
+
+  /* Copy link */
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(urlRef.current.value);
   };
 
   /* Add images */
@@ -124,6 +130,17 @@ const AlbumPage = () => {
               >
                 {edit ? "back" : "✏️"}
               </Button>
+              <div>
+                <input
+                  type="text"
+                  value={window.location.href}
+                  readOnly
+                  ref={urlRef}
+                />
+                <Button onClick={handleCopyLink} className="mx-2">
+                  Copy link
+                </Button>
+              </div>
             </>
           )}
           {/* Drop zone */}
