@@ -11,7 +11,6 @@ const UploadAlbumPage = () => {
   const [images, setImages] = useState(null);
   const albumNameRef = useRef();
   const uploadAlbum = useUploadAlbum(images);
-  const albumUuid = uuidv4();
   const [alert, setAlert] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -19,6 +18,7 @@ const UploadAlbumPage = () => {
     if (!acceptedFiles.length) {
       return;
     }
+    const albumUuid = uuidv4();
 
     uploadAlbum.createAlbum(albumNameRef.current.value, albumUuid);
     uploadAlbum.upload(acceptedFiles, albumUuid);
