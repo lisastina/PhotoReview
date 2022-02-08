@@ -8,15 +8,16 @@ const LoginPage = () => {
   const passwordRef = useRef();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { login } = useAuthContext();
+  const { register } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      await login(emailRef.current.value, passwordRef.current.value);
+      setLoading(true);
+      await register(emailRef.current.value, passwordRef.current.value);
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -26,20 +27,20 @@ const LoginPage = () => {
 
   return (
     <>
-      <h1>Login</h1>
+      <h1>Register</h1>
       <Container>
         {error && <Alert variant="warning">{error}</Alert>}
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleRegister}
           className="d-flex flex-column"
           style={{ maxWidth: "400px" }}
         >
           <input type="email" ref={emailRef} />
           <input type="password" ref={passwordRef} />
           <Button disabled={loading} type="submit">
-            Login
+            Register
           </Button>
-          <Link to="/register">Don't have an account?</Link>
+          <Link to="/login">Already have an account?</Link>
         </form>
       </Container>
     </>

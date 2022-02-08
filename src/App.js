@@ -6,6 +6,7 @@ import RequireAuth from "./components/RequireAuth";
 import LoginPage from "./pages/LoginPage";
 import AlbumPage from "./pages/AlbumPage";
 import LogoutPage from "./pages/LogoutPage";
+import RegisterPage from "./pages/RegisterPage";
 import UploadAlbumPage from "./pages/UploadAlbumPage";
 import Navigation from "./components/Navigation";
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/:id" element={<AlbumPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/logout" element={<LogoutPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>

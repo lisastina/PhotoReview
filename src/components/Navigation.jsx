@@ -12,7 +12,12 @@ const Navigation = () => {
         {currentUser ? (
           <NavLink to="/logout">Logout</NavLink>
         ) : (
-          <NavLink to="/login">Login</NavLink>
+          <div>
+            <NavLink to="/login" className="mx-2">
+              Login
+            </NavLink>
+            <NavLink to="/register">Register</NavLink>
+          </div>
         )}
       </Container>
     </Navbar>
