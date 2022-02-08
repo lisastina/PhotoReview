@@ -26,7 +26,7 @@ const SelectedImages = ({
       </Button>
       {show && (
         <Modal
-          closeButton={thanks}
+          closebutton={thanks ? "" : undefined}
           show={() => setShow(true)}
           onHide={() => setShow(false)}
           backdrop="static"

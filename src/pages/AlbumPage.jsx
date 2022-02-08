@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   Container,
   Button,
   InputGroup,
   FormControl,
   Form,
+  Alert,
 } from "react-bootstrap";
 import useGetDoc from "../hooks/useGetDoc";
 import useGetCol from "../hooks/useGetCol";
@@ -26,6 +27,7 @@ const AlbumPage = () => {
   const { currentUser } = useAuthContext();
   const [edit, setEdit] = useState(false);
   const [add, setAdd] = useState(false);
+  const [alert, setAlert] = useState(false);
   const albumNameRef = useRef();
   const [newImages, setNewImages] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
@@ -66,8 +68,10 @@ const AlbumPage = () => {
 
   /* Create new album */
   const handleNewAlbum = async (e) => {
-    e.preventDefault();
     await createNewAlbum.upload();
+    if (currentUser) {
+      setAlert(true);
+    }
   };
 
   /* Image dropzone */
@@ -151,6 +155,14 @@ const AlbumPage = () => {
                 selectedImages={selectedImages}
               />
               <p>Click on images to select</p>
+              {alert && (
+                <Alert variant="success">
+                  A new album has been created.
+                  <Link to="/">
+                    <Button className="mx-2"> Go to my albums.</Button>
+                  </Link>
+                </Alert>
+              )}
               <Button onClick={handleNewAlbum}>
                 Create new album with selected photos
               </Button>
@@ -179,6 +191,7 @@ const AlbumPage = () => {
                       selectedImages={selectedImages}
                       dislikedImages={dislikedImages}
                       handleNewAlbum={handleNewAlbum}
+                      setSelectedImages={setSelectedImages}
                     />
                   </>
                 )}
