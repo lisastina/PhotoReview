@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import useUploadAlbum from "../hooks/useUploadAlbum";
 import { useDropzone } from "react-dropzone";
+import { Link } from "react-router-dom";
+
 import ImageDropzone from "../components/ImageDropzone";
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,19 +11,24 @@ const UploadAlbumPage = () => {
   const [images, setImages] = useState(null);
   const albumNameRef = useRef();
   const uploadAlbum = useUploadAlbum(images);
+  const albumUuid = uuidv4();
+  const [alert, setAlert] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!acceptedFiles.length) {
       return;
     }
 
-    const albumUuid = uuidv4();
-
     uploadAlbum.createAlbum(albumNameRef.current.value, albumUuid);
     uploadAlbum.upload(acceptedFiles, albumUuid);
-    // navigate(`/${uploadImages.albumUuid}`);
   };
+
+  useEffect(() => {
+    if (uploadAlbum.isSuccess) {
+      setAlert(true);
+    }
+  }, [uploadAlbum.isSuccess]);
 
   const {
     getRootProps,
@@ -64,6 +71,14 @@ const UploadAlbumPage = () => {
               }}
             />
           </Form.Group>
+          {alert && (
+            <Alert variant="success">
+              A new album has been created.
+              <Link to="/">
+                <Button className="mx-2"> Go to my albums.</Button>
+              </Link>
+            </Alert>
+          )}
           <Button type="submit">Create album</Button>
         </Form>
       </Container>
